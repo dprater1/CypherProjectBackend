@@ -27,7 +27,7 @@ import com.cognixia.jump.service.UserService;
 import com.cognixia.jump.util.JwtUtil;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api")
 public class UserController {
 
 	@Autowired
@@ -49,7 +49,7 @@ public class UserController {
 		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 	
-	@PostMapping("add/auth")
+	@PostMapping("/authenticate")
 	public ResponseEntity<?> createJwtToken(@RequestBody AuthenticationRequest request) throws Exception {
 		
 		// try to catch the exception for bad credentials, just so we can set our own
@@ -77,7 +77,7 @@ public class UserController {
 
 	}
 	
-	@PostMapping("/add")
+	@PostMapping("/user/signup")
 	public ResponseEntity<?> createUser(@RequestBody @Valid User user){
 		
 		if(userService.createUser(user)) {
