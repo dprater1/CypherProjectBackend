@@ -44,8 +44,9 @@ public class SecurityConfiguration
             "/configuration/security",
             "/swagger-ui.html",
             "/webjars/**",
-            "/v3/api-docs/**",
             "/swagger-ui/**",
+            "/v3/api-docs/**",
+            
     };
 	
 	private static final String[] AUTH_ALL = {
