@@ -35,7 +35,8 @@ public class SecurityConfiguration
 	@Autowired
 	JwtRequestFilter jwtRequestFilter;
 	
-	private static final String[] AUTH_WHITELIST = {
+	
+	private static final String[] AUTH_DOCUMENTATION = {
             "/v3/api-docs",
             "/swagger-resources",
             "/swagger-resources/**",
@@ -45,8 +46,20 @@ public class SecurityConfiguration
             "/webjars/**",
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "/api/user/signup"
+    };
+	
+	private static final String[] AUTH_ALL = {
+            "/api/user/signup",
+            "/api/authenticate"
+    };
+	
+	private static final String[] AUTH_USER = {
 
+
+    };
+	
+	private static final String[] AUTH_ADMIN = {
+ 
     };
 
 	//Authentication
@@ -55,28 +68,17 @@ public class SecurityConfiguration
 	{
 		return uds;
 	}
-	
-//	@Bean
-//	protected MyUserDetailsService MyuserDetailsService() //uds = UserDetailService
-//	{
-//		return muds;
-//	}
-	
-	
+
 	//Authorization
 	@Bean
 	protected SecurityFilterChain filterChain( HttpSecurity http) throws Exception
 	{
 		http.csrf().disable()
 				   .authorizeRequests()
-				   .antMatchers(AUTH_WHITELIST).permitAll()
-				   .antMatchers("/api/authenticate").permitAll()
-				   .antMatchers(HttpMethod.POST,"/api/admin/vanguard/add").hasRole("ADMIN")
-				   .antMatchers(HttpMethod.GET, "/api/user").hasRole("ADMIN")
-				   //.antMatchers("/api/admin/*").hasRole("ADMIN")
-				   .antMatchers(HttpMethod.GET, "/api/hello").permitAll()
-				   .antMatchers(HttpMethod.GET, "/api/testing").permitAll()
-
+				   .antMatchers(AUTH_DOCUMENTATION).permitAll()
+				   .antMatchers(AUTH_ALL).permitAll()
+				   .antMatchers(AUTH_USER).hasRole("USER")
+				   .antMatchers(AUTH_ADMIN).hasRole("ADMIN")
 				   .anyRequest().authenticated()  //this chunck makes it so some login is needed to access any APIS
 				   .and()
 				   .sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS ); // tell spring security to NOT create sessions
