@@ -21,7 +21,8 @@ public class CyphersService {
 	
 	//check duplicate value.
 	public boolean checkDuplicateQuestion(String question) {
-		return repo.existbyQuestion(question);
+		return repo.existsByQuestion(question);
+		
 	}
 	
 	//create

@@ -11,7 +11,7 @@ import com.cognixia.jump.model.Cyphers;
 @Repository
 public interface CyphersRepository extends JpaRepository<Cyphers, Long> {
 
-	boolean existbyQuestion(String question);
+	boolean existsByQuestion(String question);
 
 	@Query("SELECT u FROM Cyphers u WHERE u.difficulty ='easy'")
 	public List<Cyphers> findEasyCypher();

@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
 		
 	}
 	
-	@ExceptionHandler(DuplicateUserException.class)
+	@ExceptionHandler(DuplicateCypherException.class)
 	public ResponseEntity<?> duplicateCypherException( DuplicateCypherException ex, WebRequest request ) {
 		
 		// request.getDescription(false) => details on the request (usually includes the uri path where request was made)
