@@ -18,4 +18,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("Select u.progress from User u where u.username = ?1")
 	List<Progress> findProgressByUsername(String username);
 	
+	List<Progress> findUserByProgress(String status);
 }
