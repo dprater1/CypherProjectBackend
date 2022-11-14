@@ -20,8 +20,8 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class SwaggerConfig {
 
     private ApiInfo swaggerInfo() {
-        return new ApiInfoBuilder().title("Car parts API")
-                .description("DJ's car shop").build();
+        return new ApiInfoBuilder().title("Major Zero Inc.")
+                .description("Educational Cypher Project").build();
     }
 
     @Bean
