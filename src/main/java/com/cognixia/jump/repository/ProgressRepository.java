@@ -1,5 +1,11 @@
 package com.cognixia.jump.repository;
 
-public interface ProgressRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.cognixia.jump.model.Progress;
+
+@Repository
+public interface ProgressRepository extends JpaRepository<Progress, Long> {
 
 }
