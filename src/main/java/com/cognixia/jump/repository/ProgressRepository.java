@@ -8,4 +8,10 @@ import com.cognixia.jump.model.Progress;
 @Repository
 public interface ProgressRepository extends JpaRepository<Progress, Long> {
 
+//	List<Progress> findUserByProgressByStatus(User user);
+//	//value goes into below
+//	boolean findProgressByStatus(String status);
+	
+	
+	
 }
