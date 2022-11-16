@@ -13,7 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import aj.org.objectweb.asm.Type;
 
 
 @Entity
@@ -33,7 +37,8 @@ public class Progress implements Serializable{
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@JsonBackReference
+	@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+			property = "id")
 	@ManyToOne
 	@JoinColumn(name = "cypher_id")
 	private Cyphers cypher;
