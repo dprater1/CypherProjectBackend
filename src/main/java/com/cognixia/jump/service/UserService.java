@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.cognixia.jump.exception.DuplicateUserException;
 import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.Progress;
 import com.cognixia.jump.model.User;
@@ -26,16 +27,26 @@ public class UserService {
 		return userRepo.findAll();
 	}
 	
-	public boolean createUser(User user) {
-		
-		if(user != null) {
+	public boolean createUser(User user) throws DuplicateUserException {
+		if(user != null) 
+		{
+			List<User> allUsers = getAllUsers();
+			boolean userAlreadyExist = allUsers.stream().filter(o -> o.getUsername().equals(user.getUsername())).findFirst().isPresent(); 
+			if (userAlreadyExist == true)
+			{
+				throw new DuplicateUserException("Username is already in use");
+			}
+			boolean emailAlreadyExist = allUsers.stream().filter(o -> o.getEmail().equals(user.getEmail())).findFirst().isPresent();
+			if (emailAlreadyExist == true)
+			{
+				throw new DuplicateUserException("Email is already in use");
+			}
 			user.setId(null);
 			//each password for a new user will get encoded
 			user.setPassword(encoder.encode(user.getPassword()));
 			userRepo.save(user);
 			return true;
 		}
-		
 		return false;
 	}
 	

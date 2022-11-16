@@ -17,12 +17,12 @@
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
-		<dependency>
-    		<groupId>org.springdoc</groupId>
-   			<artifactId>springdoc-openapi-ui</artifactId>
-    		<version>1.6.6</version>
-		</dependency>
-			
+		<!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
+	<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+	<dependency>
+    	<groupId>javax.validation</groupId>
+    	<artifactId>validation-api</artifactId>
+	</dependency>	
 		<!-- help us with creating & validating jwts (json web tokens) -->
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
 		<dependency>
@@ -71,6 +71,17 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<!-- swagger -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-boot-starter</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>3.0.0</version>
 		</dependency>
 	</dependencies>
 
