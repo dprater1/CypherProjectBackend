@@ -26,6 +26,7 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+	
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllUsers(){
 		List<User> users = userService.getAllUsers();
@@ -46,6 +47,7 @@ public class UserController {
 	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Long id){
+		
 		if(userService.deleteUser(id)) {
 			return new ResponseEntity<>("Deleted user with id: " + id + " from list ", HttpStatus.OK);
 		}

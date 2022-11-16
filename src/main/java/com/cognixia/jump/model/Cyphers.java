@@ -25,7 +25,7 @@ public class Cyphers implements Serializable{
 	@Column(nullable = false)
 	private String answer;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 4000)
 	private String question;
 	
 	@Column(nullable = false)
