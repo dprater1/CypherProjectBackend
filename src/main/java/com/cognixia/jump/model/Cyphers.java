@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Cyphers implements Serializable{
 
@@ -25,7 +27,7 @@ public class Cyphers implements Serializable{
 	@Column(nullable = false)
 	private String answer;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 4000)
 	private String question;
 	
 	@Column(nullable = false)
@@ -38,6 +40,7 @@ public class Cyphers implements Serializable{
 	@JoinColumn(name = "cypherType_id")
 	private CyphersType cypherType;
 	
+	@JsonIgnoreProperties(value = {"cypher_id"})
 	@OneToMany(mappedBy = "cypher", targetEntity = Progress.class)
 	private List<Progress> progress;
 	
