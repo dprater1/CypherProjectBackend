@@ -46,10 +46,9 @@ public class ProgressController {
 	@PostMapping("progress/add/{cypherId}")
 	public ResponseEntity<?> addProgress(@PathVariable Long cypherId) throws ResourceNotFoundException{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String currentPrincipalName = authentication.getName();
 		
 		
-		if(currentPrincipalName.equals(null)) {
+		if(!authentication.isAuthenticated()) {
 			throw new ResourceNotFoundException("This user is not found!");
 		}
 		User user = userService.findByUsername(authentication.getName());

@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 public class Progress implements Serializable{
@@ -25,10 +28,12 @@ public class Progress implements Serializable{
 	@Column(nullable = false)
 	private String status;
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "cypher_id")
 	private Cyphers cypher;

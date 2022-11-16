@@ -31,7 +31,7 @@ public class UserController {
 	public ResponseEntity<?> getAllUsers(){
 		List<User> users = userService.getAllUsers();
 		
-		return new ResponseEntity<>(users, HttpStatus.OK);
+		return ResponseEntity.status(200).body(users);
 	}
 	
 	@PostMapping("/user/signup")
