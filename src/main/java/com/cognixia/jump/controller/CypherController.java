@@ -52,7 +52,7 @@ public class CypherController {
 	
 	//delete cypher by id
 	@DeleteMapping("/delete/{id}")
-	public boolean deleteProduct(@PathVariable Long id) {
+	public boolean deleteCypher(@PathVariable Long id) {
 
 		return service.deleteCypherById(id);
 	}
