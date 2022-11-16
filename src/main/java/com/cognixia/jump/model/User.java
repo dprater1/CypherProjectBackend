@@ -69,6 +69,18 @@ public class User implements Serializable {
 		this.enabled = enabled;
 		this.progress = progress;
 	}
+	
+	public User(Long id,String first,String last, String username, String password, String email, Role role, boolean enabled,
+			List<Progress> progress) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+		this.enabled = enabled;
+		this.progress = progress;
+	}
 
 	public Long getId() {
 		return id;
