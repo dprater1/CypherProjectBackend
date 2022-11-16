@@ -31,7 +31,7 @@ public class CypherController {
 	}
 	//create new cypher
 	@PostMapping("/new")
-	public ResponseEntity<?> createProduct(@RequestBody Cyphers cypher) throws DuplicateCypherException {
+	public ResponseEntity<?> createCypher(@RequestBody Cyphers cypher) throws DuplicateCypherException {
 		return service.createCyphers(cypher);
 	}
 	
@@ -44,9 +44,9 @@ public class CypherController {
 	
 	//update cypher by id
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updateProduct(@RequestBody Cyphers cypher, @PathVariable Long id)
+	public ResponseEntity<?> updateCypher(@RequestBody Cyphers cypher, @PathVariable Long id)
 			throws ResourceNotFoundException {
-		return service.updateProduct(cypher, id);
+		return service.updateCypher(cypher, id);
 	}
 	
 	// custom query
