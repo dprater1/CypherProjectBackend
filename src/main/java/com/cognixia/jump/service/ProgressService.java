@@ -47,12 +47,12 @@ public class ProgressService {
 
 	}
 
-	public boolean completedProgress(Long id) {
+	public boolean completedProgress(Long id) throws ResourceNotFoundException{
 
 		Optional<Progress> curr_prog = progRepo.findById(id);
 		
 		if(curr_prog.isEmpty()) {
-			return false;
+			throw new ResourceNotFoundException("This cypher is not attached to this user!");
 		}
 		
 		curr_prog.get().setStatus("completed");
@@ -61,12 +61,12 @@ public class ProgressService {
 		return true;
 	}
 	
-	public boolean inprogressProgress(Long id) {
+	public boolean inprogressProgress(Long id) throws ResourceNotFoundException {
 
 		Optional<Progress> curr_prog = progRepo.findById(id);
 		
 		if(curr_prog.isEmpty()) {
-			return false;
+			throw new ResourceNotFoundException("This cypher is not attached to this user!");
 		}
 		
 		curr_prog.get().setStatus("in-progress");
@@ -85,6 +85,19 @@ public class ProgressService {
 		return true;
 	}
 	
-	
+	public Cyphers findCypherInProgById(Long progressId) throws ResourceNotFoundException{
+		Optional<Progress> curr_prog = progRepo.findById(progressId);
+		
+		if(curr_prog.isEmpty()) {
+			throw new ResourceNotFoundException("This cypher is not attached to this user!");
+		}
+		Optional<Cyphers> cypher = cyphersRepo.findById(curr_prog.get().getCypher().getId());
+		
+		if(cypher.isEmpty()) {
+			throw new ResourceNotFoundException("This cypher is not attached to this user!");
+		}
+		return cypher.get();
+		
+	}
 	
 }
