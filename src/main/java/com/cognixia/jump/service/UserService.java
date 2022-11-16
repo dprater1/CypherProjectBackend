@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.cognixia.jump.model.Progress;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
 
@@ -48,5 +49,11 @@ public class UserService {
 		return true;
 		
 	}
+	
+	public List<Progress> getCompletion(String username){
+		return userRepo.findProgressByUsername(username);
+	}
+	
+	
 	
 }

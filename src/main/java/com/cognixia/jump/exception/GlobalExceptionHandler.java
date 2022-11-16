@@ -33,4 +33,16 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(404).body(errorDetails);
 		
 	}
+	
+	@ExceptionHandler(DuplicateCypherException.class)
+	public ResponseEntity<?> duplicateCypherException( DuplicateCypherException ex, WebRequest request ) {
+		
+		// request.getDescription(false) => details on the request (usually includes the uri path where request was made)
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
+		
+		// when the exception gets thrown, instead of returning the exception as json in the response,
+		// return instead this response entity
+		return ResponseEntity.status(404).body(errorDetails);
+		
+	}
 }

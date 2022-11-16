@@ -76,6 +76,11 @@ public class Progress implements Serializable{
 	public void setCypher(Cyphers cypher) {
 		this.cypher = cypher;
 	}
+	
+	public void addCyphersUsers(Cyphers cypher, User user) {
+		this.cypher = cypher;
+		this.user = user;
+	}
 
 	@Override
 	public String toString() {
