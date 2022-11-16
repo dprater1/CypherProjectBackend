@@ -55,7 +55,7 @@ public class User implements Serializable {
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled;
 	
-	@JsonIgnoreProperties(value = {"user_id"})
+	@JsonManagedReference
 	@OneToMany(mappedBy = "user", targetEntity = Progress.class)
 	private List<Progress> progress;
 

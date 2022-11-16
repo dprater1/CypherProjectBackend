@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class CyphersType implements Serializable{
@@ -26,6 +28,7 @@ public class CyphersType implements Serializable{
 	@Column(nullable = false)
 	private String introduction;	
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "cypherType", targetEntity = Cyphers.class)
 	private List<Cyphers> cypher;
 	

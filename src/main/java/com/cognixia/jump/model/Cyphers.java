@@ -13,7 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 public class Cyphers implements Serializable{
@@ -36,11 +41,15 @@ public class Cyphers implements Serializable{
 	@Column(nullable = false)
 	private String difficulty;
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "cypherType_id")
 	private CyphersType cypherType;
 	
-	@JsonIgnoreProperties(value = {"cypher_id"})
+	@JsonIgnore
+	@JsonIdentityInfo(
+			  generator = ObjectIdGenerators.PropertyGenerator.class, 
+			  property = "id")
 	@OneToMany(mappedBy = "cypher", targetEntity = Progress.class)
 	private List<Progress> progress;
 	
