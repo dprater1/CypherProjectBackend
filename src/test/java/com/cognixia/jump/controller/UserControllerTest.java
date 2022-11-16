@@ -5,10 +5,15 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -35,6 +40,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.cognixia.jump.exception.DuplicateUserException;
 import com.cognixia.jump.filter.JwtRequestFilter;
+
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.model.User.Role;
 import com.cognixia.jump.repository.UserRepository;
@@ -116,7 +122,7 @@ public class UserControllerTest
 			.contentType(MediaType.APPLICATION_JSON_VALUE)
 			.accept(MediaType.APPLICATION_JSON))
 			.andDo(print())
-			.andExpect(status().isBadRequest());
+			.andExpect(status().isNotFound());
 	
 		
 	}
@@ -125,15 +131,36 @@ public class UserControllerTest
 	@WithMockUser(roles = "ADMIN")
 	public void testGetUserByUserName() throws Exception 
 	{
-
-		String uri = "/api/all";
 		
-		MvcResult mvcResult = mock.perform(
-				MockMvcRequestBuilders.get(uri)
-				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		List<User> ul = new ArrayList<>();
+		User u = new User(0L,"John","Cena","cantSeeMe77","attitudeAdjustment","JC77@email.com",Role.ROLE_USER, true,null);
+		ul.add(u);
+		String uri = "/api/user/cantSeeMe77";
+		when(us.findByUsername(u.getUsername())).thenReturn(u);
 		
-		int status = mvcResult.getResponse().getStatus();
-		assertEquals(200, status);
+		
+		mock.perform(get(uri,u.getUsername()))
+			   .andDo(print())
+			   .andExpect( status().isOk());
+		//assertEquals(200, status.isOk());
+		
+	}
+	
+	@Test
+	public void testDeleteUser() throws Exception 
+	{
+		
+		List<User> ul = new ArrayList<>();
+		User u = new User(0L,"John","Cena","cantSeeMe77","attitudeAdjustment","JC77@email.com",Role.ROLE_USER, true,null);
+		ul.add(u);
+		String uri = "/api/deleteUser/0";
+		when(us.deleteUser(u.getId())).thenReturn(true);
+		
+	
+		mock.perform(delete(uri,u.getId()))
+			   .andDo(print())
+			   .andExpect( status().isOk());
+		//assertEquals(200, status.isOk());
 		
 	}
 	

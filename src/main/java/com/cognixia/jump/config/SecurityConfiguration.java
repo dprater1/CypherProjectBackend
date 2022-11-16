@@ -53,12 +53,13 @@ public class SecurityConfiguration
     };
 	
 	private static final String[] AUTH_USER = {
-
+			"api/deleteUser/**"
 
     };
 	
 	private static final String[] AUTH_ADMIN = {
- 
+			"/api/all",
+			"/api/user"
     };
 
 	//Authentication

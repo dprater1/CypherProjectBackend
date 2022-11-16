@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.exception.DuplicateUserException;
-import com.cognixia.jump.model.Student;
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.service.UserService;
 
@@ -47,7 +47,7 @@ public class UserController {
 		return new ResponseEntity<>("Failed to create user: " + user, HttpStatus.NOT_ACCEPTABLE);
 	}
 	
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/deleteUser/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Long id){
 		
 		if(userService.deleteUser(id)) {
@@ -58,16 +58,17 @@ public class UserController {
 		
 	}
 	
-	@GetMapping("/user")
-	public Optional<User> getUsersByUserName(String username){
+	@GetMapping("/user/{username}")
+	public ResponseEntity<User> getUserByUserName(@PathVariable String username) throws ResourceNotFoundException{
+	 
+		User user = (userService.findByUsername(username));
 		
-		Optional<User> user = userService.findByUsername(username);
-		
-		if(studentOpt.isPresent()) {
-			return ResponseEntity.status(200).body(studentOpt.get());
+		if(user != null) 
+		{
+			return ResponseEntity.status(200).body(user);
 		}
 		
-		return ResponseEntity.status(200).body(users);
+		return ResponseEntity.status(400).body(user);
 	}
 	
 }
