@@ -36,7 +36,7 @@ public class CypherController {
 	}
 	
 	//get cypher by id number
-	@GetMapping("/cypers/{id}")
+	@GetMapping("/cyphers/{id}")
 	public ResponseEntity<?> getCypherById(@PathVariable Long id) throws ResourceNotFoundException {
 
 		return service.getCypherById(id);

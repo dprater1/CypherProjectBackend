@@ -1,6 +1,9 @@
 package com.cognixia.jump.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -15,10 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.filter.JwtRequestFilter;
 import com.cognixia.jump.model.Cyphers;
 import com.cognixia.jump.repository.CyphersRepository;
@@ -66,8 +71,25 @@ class CypherControllerTest {
 	}
 
 	@Test
-	void testGetCypherById() {
-		fail("Not yet implemented");
+	@WithMockUser(roles = "ADMIN")
+	void testgetCypherById() throws Exception {
+		String uri = "/cyphers/cyphers/{id}";
+		String answer="ay caramba";
+		Long id = 1L;
+		List<Cyphers> cypher = new ArrayList<Cyphers>();
+		
+		cypher.add(new Cyphers(id, answer, "ceaser","hints","easy",null, null));
+		ResponseEntity<Cyphers> re = ResponseEntity.status(200).body(cypher.get(0));
+		when( service.getCypherById(id)).thenReturn(re);
+		
+		mockMvc.perform( get(uri,id ) )
+		.andDo( print() )
+		.andExpect( status().isOk() )
+		.andExpect( jsonPath("id").value( cypher.get(0).getId() ) )
+		.andExpect( jsonPath("answer").value( cypher.get(0).getAnswer() ) )
+		;
+		verify( service, times(1) ).getCypherById(id);
+		verifyNoMoreInteractions(service);
 	}
 
 	@Test
