@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.Cyphers;
 import com.cognixia.jump.model.Progress;
 import com.cognixia.jump.model.User;
@@ -30,13 +31,13 @@ public class ProgressService {
 		return progRepo.findAll();
 	}
 	
-	public boolean addProgress(Long userId, Long cypherId) {
+	public boolean addProgress(Long userId, Long cypherId) throws ResourceNotFoundException{
 		//create pathVariable in controller for cypherId
 		Optional<User> users = userRepo.findById(userId);
 		Optional<Cyphers> cyphers = cyphersRepo.findById(cypherId);
 
 		if (users.isEmpty() && cyphers.isEmpty()) {
-			return false;
+			throw new ResourceNotFoundException("One of user or cypher is null!");
 		}
 		Progress prog = new Progress();
 		prog.addCyphersUsers(cyphers.get(), users.get());
