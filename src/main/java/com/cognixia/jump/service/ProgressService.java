@@ -42,14 +42,13 @@ public class ProgressService {
 		prog.addCyphersUsers(cyphers.get(), users.get());
 		prog.setStatus("incomplete");
 		progRepo.save(prog);
-
 		return true;
 
 	}
 
-	public boolean completedProgress(Progress progress) {
+	public boolean completedProgress(Long id) {
 
-		Optional<Progress> curr_prog = progRepo.findById(progress.getId());
+		Optional<Progress> curr_prog = progRepo.findById(id);
 		
 		if(curr_prog.isEmpty()) {
 			return false;
@@ -60,5 +59,31 @@ public class ProgressService {
 		
 		return true;
 	}
+	
+	public boolean inprogressProgress(Long id) {
 
+		Optional<Progress> curr_prog = progRepo.findById(id);
+		
+		if(curr_prog.isEmpty()) {
+			return false;
+		}
+		
+		curr_prog.get().setStatus("in-progress");
+		progRepo.save(curr_prog.get());
+		
+		return true;
+	}
+
+	public boolean deleteProgress(Long id) {
+		Optional<Progress> curr_prog = progRepo.findById(id);
+		
+		if(curr_prog.isEmpty()) {
+			return false;
+		}
+		progRepo.deleteById(id);
+		return true;
+	}
+	
+	
+	
 }
