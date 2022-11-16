@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.Progress;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
@@ -54,6 +55,16 @@ public class UserService {
 		return userRepo.findProgressByUsername(username);
 	}
 	
-	
+	public User findByUsername(String username) throws ResourceNotFoundException{
+		Optional<User> user = userRepo.findByUsername(username);
+		
+		if(user.isEmpty()) {
+			throw new ResourceNotFoundException("This user does not exist!");
+		}
+		
+		return user.get();
+		
+		
+	}
 	
 }

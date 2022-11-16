@@ -12,6 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class User implements Serializable {
@@ -51,6 +55,7 @@ public class User implements Serializable {
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled;
 	
+	@JsonIgnoreProperties(value = {"user_id"})
 	@OneToMany(mappedBy = "user", targetEntity = Progress.class)
 	private List<Progress> progress;
 
