@@ -74,7 +74,7 @@ public class ProgressService {
 		return true;
 	}
 
-	public boolean deleteProgress(Long id) {
+	public boolean deleteProgress(Long id){
 		Optional<Progress> curr_prog = progRepo.findById(id);
 		
 		if(curr_prog.isEmpty()) {
