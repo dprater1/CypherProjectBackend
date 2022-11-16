@@ -1,6 +1,7 @@
 package com.cognixia.jump.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -15,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.cognixia.jump.exception.DuplicateUserException;
+import com.cognixia.jump.model.Student;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.service.UserService;
 
@@ -35,8 +37,8 @@ public class UserController {
 	}
 	
 	@PostMapping("/user/signup")
-	public ResponseEntity<?> createUser(@RequestBody @Valid User user){
-		
+	public ResponseEntity<?> createUser(@RequestBody @Valid User user) throws DuplicateUserException{
+
 		if(userService.createUser(user)) {
 			User created = user;
 			return ResponseEntity.status(201).body(created);
@@ -54,6 +56,18 @@ public class UserController {
 		
 		return new ResponseEntity<>("Failed to delete user.", HttpStatus.NOT_ACCEPTABLE);
 		
+	}
+	
+	@GetMapping("/user")
+	public Optional<User> getUsersByUserName(String username){
+		
+		Optional<User> user = userService.findByUsername(username);
+		
+		if(studentOpt.isPresent()) {
+			return ResponseEntity.status(200).body(studentOpt.get());
+		}
+		
+		return ResponseEntity.status(200).body(users);
 	}
 	
 }

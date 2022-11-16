@@ -5,6 +5,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,6 +33,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.cognixia.jump.exception.DuplicateUserException;
 import com.cognixia.jump.filter.JwtRequestFilter;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.model.User.Role;
@@ -86,14 +88,14 @@ public class UserControllerTest
 	public void createUserTest() throws Exception{
 		
 		String uri = "/api/user/signup";
-		User testUser = new User(0L,"John","Cena","cantSeeMe77","attitudeAdjustment","JC77@email.com",Role.ROLE_USER, true,null);
+		User testUser = new User(1L,"John","Cena","cantSeeMe77","attitudeAdjustment","JC77@email.com",Role.ROLE_USER, true,null);
 		
 		when(us.createUser(Mockito.any(User.class))).thenReturn(true);
 		
 		mock.perform(post(uri)
 				.content(asJsonString(testUser))
-				.contentType(MediaType.APPLICATION_JSON_VALUE))
-				.andDo(print())
+				.contentType(MediaType.APPLICATION_JSON_VALUE)//.accept(MediaType.APPLICATION_JSON))
+				).andDo(print())
 				.andExpect(status().isCreated());
 	
 		//verify(us, times(1) ).createUser(testUser);
@@ -101,20 +103,37 @@ public class UserControllerTest
 	}
 	
 	@Test
-	public void createUserTestasDuplicateResourceFound() throws Exception{
+	public void createUserTestThrowsDuplicateUserException() throws Exception{
 		
 		String uri = "/api/user/signup";
 		User testUser = new User(0L,"John","Cena","cantSeeMe77","attitudeAdjustment","JC77@email.com",Role.ROLE_USER, true,null);
-		when(us.createUser(Mockito.any(User.class))).thenReturn(false);
+		when(us.createUser(Mockito.any(User.class))).thenThrow(new DuplicateUserException("Username: " + testUser.getUsername() + "is already in use"));
 		//User testUser2= new User(0L,"John","Cena","cantSeeMe77","attitudeAdjustment","JC77@email.com",Role.ROLE_USER, true,null);
 		//when(us.createUser(Mockito.any(User.class))).thenReturn(false);
 		
-		mock.perform(post(uri)
-				.content(asJsonString(testUser))
-				.contentType(MediaType.APPLICATION_JSON_VALUE))
-				.andDo(print())
-				.andExpect(status().isBadRequest());
+		mock.perform(post(uri,testUser)
+			.content(asJsonString(testUser))
+			.contentType(MediaType.APPLICATION_JSON_VALUE)
+			.accept(MediaType.APPLICATION_JSON))
+			.andDo(print())
+			.andExpect(status().isBadRequest());
 	
+		
+	}
+	
+	@Test
+	@WithMockUser(roles = "ADMIN")
+	public void testGetUserByUserName() throws Exception 
+	{
+
+		String uri = "/api/all";
+		
+		MvcResult mvcResult = mock.perform(
+				MockMvcRequestBuilders.get(uri)
+				.accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+		
+		int status = mvcResult.getResponse().getStatus();
+		assertEquals(200, status);
 		
 	}
 	
