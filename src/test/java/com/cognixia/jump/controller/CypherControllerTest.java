@@ -117,10 +117,12 @@ class CypherControllerTest {
 		String uri = "/cyphers/update/{id}";
 		Long id = 1L;
 		String answer="ay caramba";
+		String answer2="Frost";
 		List<Cyphers> cypher = new ArrayList<Cyphers>();
 		cypher.add(new Cyphers(id, answer, "ceaser","hints","easy",null, null));
 		Optional<Cyphers> cypher2 = repo.findById(id);
-		when(service.updateCypher(cypher, id)).thenReturn(cypher);
+		
+		when(service.updateCypher(cypher, id).thenReturn(cypher);
 		
 		mockMvc.perform( get(uri) )
 		.andDo( print() )
