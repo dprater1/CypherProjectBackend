@@ -21,5 +21,5 @@ public interface CyphersRepository extends JpaRepository<Cyphers, Long> {
 	
 	@Query("SELECT u FROM Cyphers u WHERE u.difficulty=hard")
 	public List<Cyphers> findHardCypher();
-	
+	//
 }
