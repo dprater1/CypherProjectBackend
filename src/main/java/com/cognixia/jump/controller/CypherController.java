@@ -59,15 +59,15 @@ public class CypherController {
 	
 	
 	// custom query
-	@GetMapping("/cypher/easy")
+	@GetMapping("/cyphers/easy")
 	public List<Cyphers> getCypherEasy() {
 		return service.getEasyCypher();
 	}
-	@GetMapping("/cypher/medium")
+	@GetMapping("/cyphers/medium")
 	public List<Cyphers> getCypherMedium() {
 		return service.getMediumCypher();
 	}
-	@GetMapping("/cypher/hard")
+	@GetMapping("/cyphers/hard")
 	public List<Cyphers> getCypherHard() {
 		return service.getHardCypher();
 	}

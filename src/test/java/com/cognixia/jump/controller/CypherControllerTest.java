@@ -14,6 +14,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import javax.persistence.EntityManager;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -78,16 +80,13 @@ class CypherControllerTest {
 	@Test
 	@WithMockUser(roles = "ADMIN")
 	void testCreateCypher() throws Exception {
-//		
-//		String uri = "/cyphers/new";
-//		List<Cyphers> cypher = new ArrayList<Cyphers>();
-//		
-//		cypher.add(new Cyphers(1L, "answer", "ceaser","hints","easy",null, null));
-//		when(service.createCyphers(Mockito.any(Cyphers.class))).
-//		mockMvc.perform(MockMvcRequestBuilders.post(uri)
-//				  .content(asJsonString(cypher))
-//				  .contentType(MediaType.APPLICATION_JSON)
-//				  .accept(MediaType.APPLICATION_JSON));
+		String uri = "/cyphers/new";		
+		mockMvc.perform(MockMvcRequestBuilders.post(uri)
+				  .content(asJsonString(new Cyphers(1L, "answer", "ceaser","hints","easy",null, null)))
+				  .contentType(MediaType.APPLICATION_JSON)
+				  .accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isOk())
+					.andExpect(MockMvcResultMatchers.jsonPath("$[0].id").exists());
 	}
 
 	@Test
@@ -114,34 +113,75 @@ class CypherControllerTest {
 		
 	@Test
 	void testUpdateProduct() throws Exception {
-//		String uri = "/cyphers/update/{id}";
-//		Long id = 1L;
-//		String answer="ay caramba";
-//		String answer2="Frost";
-//		Cyphers cypher = new Cyphers();
-//		Optional<Cyphers> cypher2 = repo.findById(id);
-//		
-//		
-//		
-//		mockMvc.perform( get(uri) )
-//		.andDo( print() )
-//		.andExpect( status().isOk() )
-//		;
+		String uri = "/cyphers/update/{id}";
+		Long id = 1L;
+		String answer="ay caramba";
+		String answer2="Frost";
+		Cyphers cypher = new Cyphers();
+		Optional<Cyphers> cypher2 = repo.findById(id);
+		
+		
+		
+		mockMvc.perform( get(uri) )
+		.andDo( print() )
+		.andExpect( status().isOk() )
+		;
 	}
 
 	@Test
-	void testGetCypherEasy() {
-		fail("Not yet implemented");
+	void testGetCypherEasy() throws Exception {
+		String uri = "/cyphers/cyphers/easy";
+		List<Cyphers> cypher = new ArrayList<Cyphers>();
+		
+		cypher.add(new Cyphers(1L, "answer", "ceaser","hints","hard",null, null));
+		cypher.add(new Cyphers(2L, "answer", "ceaser","hints","easy",null, null));
+		cypher.add(new Cyphers(3L, "answer", "ceaser","hints","medium",null, null));
+		when(service.getEasyCypher()).thenReturn(cypher);
+		
+		mockMvc.perform( get(uri) )
+		.andDo( print() )
+		.andExpect( status().isOk() )
+		.andExpect( jsonPath("$.length()").value( cypher.size() ) )
+		.andExpect( jsonPath("$[0].difficuly").value( cypher.get(0).getDifficulty()) )
+		;
 	}
 
 	@Test
-	void testGetCypherMedium() {
-		fail("Not yet implemented");
+	void testGetCypherMedium() throws Exception {
+		String uri = "/cyphers/cyphers/medium";
+		List<Cyphers> cypher = new ArrayList<Cyphers>();
+		
+		cypher.add(new Cyphers(1L, "answer", "ceaser","hints","hard",null, null));
+		cypher.add(new Cyphers(2L, "answer", "ceaser","hints","easy",null, null));
+		cypher.add(new Cyphers(3L, "answer", "ceaser","hints","medium",null, null));
+		when(service.getMediumCypher()).thenReturn(cypher);
+		
+		mockMvc.perform( get(uri) )
+		.andDo( print() )
+		.andExpect( status().isOk() )
+		.andExpect( jsonPath("$.length()").value( cypher.size() ) )
+		.andExpect( jsonPath("$difficuly").value( cypher.get(0).getDifficulty()) )
+		.andExpect( jsonPath("$[1].difficuly").value( cypher.get(1).getDifficulty()) )
+		.andExpect( jsonPath("$[2].difficuly").value( cypher.get(2).getDifficulty()) )
+		;
 	}
 
 	@Test
-	void testGetCypherHard() {
-		fail("Not yet implemented");
+	void testGetCypherHard() throws Exception {
+		String uri = "/cyphers/cyphers/hard";
+		List<Cyphers> cypher = new ArrayList<Cyphers>();
+		
+		cypher.add(new Cyphers(1L, "answer", "ceaser","hints","hard",null, null));
+		cypher.add(new Cyphers(2L, "answer", "ceaser","hints","easy",null, null));
+		cypher.add(new Cyphers(3L, "answer", "ceaser","hints","medium",null, null));
+		when(service.getHardCypher()).thenReturn(cypher);
+		
+		mockMvc.perform( get(uri) )
+		.andDo( print() )
+		.andExpect( status().isOk() )
+		.andExpect( jsonPath("$.length()").value( cypher.size() ) )
+		.andExpect( jsonPath("$[0].difficuly").value( cypher.get(0).getDifficulty()) )
+		;
 	}
 
 
