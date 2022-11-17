@@ -100,4 +100,20 @@ public class ProgressService {
 		
 	}
 	
+	public User findUserInProgById(Long progressId) throws ResourceNotFoundException{
+		Optional<Progress> curr_prog = progRepo.findById(progressId);
+		
+		if(curr_prog.isEmpty()) {
+			throw new ResourceNotFoundException("This cypher is not attached to this user!");
+		}
+		Optional<User> user = userRepo.findById(curr_prog.get().getUser().getId());
+		
+		if(user.isEmpty()) {
+			throw new ResourceNotFoundException("This cypher is not attached to this user!");
+		}
+		return user.get();
+		
+	}
+	
+	
 }
