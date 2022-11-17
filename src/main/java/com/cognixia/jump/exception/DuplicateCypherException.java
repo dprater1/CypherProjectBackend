@@ -4,6 +4,12 @@ public class DuplicateCypherException extends Exception{
 
 	private static final long serialVersionUID = 1L;
 	
+	public DuplicateCypherException()
+	{
+		super();
+	}
+	
+	
 	public DuplicateCypherException(String msg) {
 		super(msg);
 	}
