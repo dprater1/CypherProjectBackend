@@ -36,7 +36,7 @@ public class SecurityConfiguration
 	
 	
 	private static final String[] AUTH_DOCUMENTATION = {
-            "/v3/api-docs",
+            "/v2/api-docs",
             "/swagger-resources",
             "/swagger-resources/**",
             "/configuration/ui",
@@ -45,6 +45,7 @@ public class SecurityConfiguration
             "/webjars/**",
             "/v3/api-docs/**",
             "/swagger-ui/**",
+            
     };
 	
 	private static final String[] AUTH_ALL = {
@@ -79,9 +80,11 @@ public class SecurityConfiguration
 				   .antMatchers(AUTH_ALL).permitAll()
 				   .antMatchers(AUTH_USER).hasRole("USER")
 				   .antMatchers(AUTH_ADMIN).hasRole("ADMIN")
-				   .anyRequest().authenticated()  //this chunck makes it so some login is needed to access any APIS
+				   .anyRequest()
+				   .authenticated()  //this chunck makes it so some login is needed to access any APIS
 				   .and()
-				   .sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS ); // tell spring security to NOT create sessions
+				   .sessionManagement()
+				   .sessionCreationPolicy( SessionCreationPolicy.STATELESS ); // tell spring security to NOT create sessions
 		
 		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		
