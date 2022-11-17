@@ -50,7 +50,8 @@ public class SecurityConfiguration
 	
 	private static final String[] AUTH_ALL = {
             "/api/user/signup",
-            "/api/authenticate"
+            "/api/authenticate",
+            "/cyphers/all"
     };
 	
 	private static final String[] AUTH_USER = {
