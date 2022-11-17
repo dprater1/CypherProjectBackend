@@ -77,7 +77,7 @@ class CypherControllerTest {
 //		.andExpect( jsonPath("$[0].answer").value( cypher.get(0).getAnswer() ) )
 //		;
 
-		String uri = "/cyphers/all";
+		String uri = "/api/cyphers/all";
 
 		MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
 				.andReturn();
@@ -90,7 +90,7 @@ class CypherControllerTest {
 	@Test
 	@WithMockUser(roles = "ADMIN")
 	void testCreateCypher() throws Exception {
-		String uri = "/cyphers/new";
+		String uri = "/api/cyphers/new";
 		mockMvc.perform(MockMvcRequestBuilders.post(uri)
 				.content(asJsonString(new Cyphers(1L, "answer", "ceaser", "hints", "easy", null, null)))
 				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -101,7 +101,7 @@ class CypherControllerTest {
 	@Test
 	@WithMockUser(roles = "ADMIN")
 	void testgetCypherById() throws Exception {
-		String uri = "/cyphers/cyphers/{id}";
+		String uri = "/api/cyphers/{id}";
 		String answer = "ay caramba";
 		Long id = 1L;
 		List<Cyphers> cypher = new ArrayList<Cyphers>();
@@ -121,7 +121,7 @@ class CypherControllerTest {
 
 	@Test
 	void testUpdateProduct() throws Exception {
-		String uri = "/cyphers/update/{id}";
+		String uri = "/api/cyphers/update/{id}";
 		Long id = 1L;
 		String answer = "ay caramba";
 		String answer2 = "simpson";
@@ -142,7 +142,7 @@ class CypherControllerTest {
 
 	@Test
 	void testGetCypherEasy() throws Exception {
-		String uri = "/cyphers/cyphers/easy";
+		String uri = "/api/cyphers/easy";
 		List<Cyphers> cypher = new ArrayList<Cyphers>();
 
 		cypher.add(new Cyphers(1L, "answer", "ceaser", "hints", "hard", null, null));
@@ -157,7 +157,7 @@ class CypherControllerTest {
 
 	@Test
 	void testGetCypherMedium() throws Exception {
-		String uri = "/cyphers/cyphers/medium";
+		String uri = "/api/cyphers/medium";
 		List<Cyphers> cypher = new ArrayList<Cyphers>();
 
 		cypher.add(new Cyphers(1L, "answer", "ceaser", "hints", "hard", null, null));
@@ -174,7 +174,7 @@ class CypherControllerTest {
 
 	@Test
 	void testGetCypherHard() throws Exception {
-		String uri = "/cyphers/cyphers/hard";
+		String uri = "/api/cyphers/hard";
 		List<Cyphers> cypher = new ArrayList<Cyphers>();
 
 		cypher.add(new Cyphers(1L, "answer", "ceaser", "hints", "hard", null, null));
