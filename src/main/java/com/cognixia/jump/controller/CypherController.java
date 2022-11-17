@@ -19,19 +19,19 @@ import com.cognixia.jump.model.Cyphers;
 import com.cognixia.jump.service.CyphersService;
 
 @RestController
-@RequestMapping("/cyphers")
+@RequestMapping("/api")
 public class CypherController {
 	
 	@Autowired
 	CyphersService service;
 
 	//get all cypher list
-	@GetMapping("/all")
+	@GetMapping("/cyphers/all")
 	public List<Cyphers> getAllCypers(){
 		return service.getAllCyphers();
 	}
 	//create new cypher
-	@PostMapping("/new")
+	@PostMapping("/cyphers/new")
 	public ResponseEntity<?> createCypher(@RequestBody Cyphers cypher) throws DuplicateCypherException {
 		return service.createCyphers(cypher);
 	}
@@ -44,14 +44,14 @@ public class CypherController {
 	}
 	
 	//update cypher by id
-	@PutMapping("/update/{id}")
+	@PutMapping("/cyphers/update/{id}")
 	public ResponseEntity<?> updateCypher(@RequestBody Cyphers cypher, @PathVariable Long id)
 			throws ResourceNotFoundException {
 		return service.updateCypher(cypher, id);
 	}
 	
 	//delete cypher by id
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/cyphers/delete/{id}")
 	public boolean deleteCypher(@PathVariable Long id) {
 
 		return service.deleteCypherById(id);
