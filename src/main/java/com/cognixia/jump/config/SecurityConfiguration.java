@@ -51,9 +51,14 @@ public class SecurityConfiguration
 	private static final String[] AUTH_ALL = {
             "/api/user/signup",
             "/api/authenticate",
+<<<<<<< HEAD
             "/api/progress/**",
             "/api/cyphers/**"
 
+=======
+            "/api/progress/complete/**",
+            "/cyphers/**"
+>>>>>>> main
     };
 	
 	private static final String[] AUTH_USER = {

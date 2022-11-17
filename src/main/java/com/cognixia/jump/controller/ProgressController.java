@@ -86,7 +86,8 @@ public class ProgressController {
 		
 		return new ResponseEntity<>("ID not found!", HttpStatus.NOT_FOUND);
 	}
-	@GetMapping("/progress/find/cypher/{progId}")
+	
+	@GetMapping("/progress/find/{progId}")
 	public ResponseEntity<?> findCypherInProgById(@PathVariable Long progId) throws ResourceNotFoundException{
 		Cyphers cypher = progService.findCypherInProgById(progId);
 		

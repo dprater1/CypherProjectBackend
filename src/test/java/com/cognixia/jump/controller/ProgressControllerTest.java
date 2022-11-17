@@ -107,13 +107,11 @@ public class ProgressControllerTest
 	@WithMockUser(roles = "ADMIN")
 	public void testAddProgress() throws Exception{
 		
-		//List<Progress> pl = new ArrayList<>();
 		String uri = "/api/progress/add/{id}";
 		Long id = 1L;
 		User u = (new User(id,"John","Cena","cantSeeMe77","attitudeAdjustment","JC77@email.com",Role.ROLE_USER, true,null));
-		//Cyphers c = new Cyphers(1L, "42", "The answer to life", "da bibl","easy",null,null);
 		Progress testProgress = new Progress(1L,"incomplete", u, null);
-		//pl.add(testProgress);
+
 
 		when(ps.addProgress(Mockito.any(Long.class), Mockito.any(Long.class))).thenReturn(true);
 		when(us.findByUsername(Mockito.any(String.class))).thenReturn(u);
@@ -124,24 +122,17 @@ public class ProgressControllerTest
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				).andDo(print())
 				.andExpect(status().isCreated());
-		
-		
-		//mock.perform(get(uri,u.getUsername()))
-		 //  .andDo(print())
-		  // .andExpect( status().isOk());
-				//.andExpect(jsonPath("$.id").value(testProgress.getId()));;
+
 	
 
 	}
 	
 	@Test
-	public void addProgessTestThrowsResourceNotFoundException() throws Exception{
+	public void testAddProgessThrowsResourceNotFoundException() throws Exception{
 		
 		String uri = "/api/user/signup";
 		Progress testProgress = new Progress(1L,"incomplete", null, null);
 		when(ps.addProgress(Mockito.any(Long.class), Mockito.any(Long.class))).thenThrow(new ResourceNotFoundException());
-		//User testUser2= new User(0L,"John","Cena","cantSeeMe77","attitudeAdjustment","JC77@email.com",Role.ROLE_USER, true,null);
-		//when(us.createUser(Mockito.any(User.class))).thenReturn(false);
 		
 		mock.perform(post(uri,testProgress)
 			.content(asJsonString(testProgress))
@@ -158,65 +149,53 @@ public class ProgressControllerTest
 	@WithMockUser(roles = "ADMIN")
 	public void testCompleteProgress() throws Exception{
 		
-		String uri = "/api/progress/complete/{cypherId}";
-		Long id = 1L;
-		//User u = (new User(id,"John","Cena","cantSeeMe77","attitudeAdjustment","JC77@email.com",Role.ROLE_USER, true,null));
+		String uri = "/api/progress/complete/{progressId}";
+		Long id = 1L;;
 		Progress testProgress = new Progress(1L,"incomplete", null, null);
 
 		when(ps.completedProgress(Mockito.any(Long.class))).thenReturn(true);
-		//when(us.findByUsername(Mockito.any(String.class))).thenReturn(u);
 		
 		mock.perform(put(uri,id)
-				//.content(asJsonString(u))
 				.content(asJsonString(testProgress))
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				).andDo(print())
 				.andExpect(status().isOk());
 		
-		
-		//mock.perform(get(uri,u.getUsername()))
-		 //  .andDo(print())
-		  // .andExpect( status().isOk());
-				//.andExpect(jsonPath("$.id").value(testProgress.getId()));;
 	
 
 	}
-	/*@Test
+	@Test
 	@WithMockUser(roles = "ADMIN")
-	public void testGetUserByUserName() throws Exception 
+	public void testfindCypherInProgById() throws Exception 
 	{
-		String uri = "api/progress/find/{id}";
-		List<User> ul = new ArrayList<>();
-		User u = new User(0L,"John","Cena","cantSeeMe77","attitudeAdjustment","JC77@email.com",Role.ROLE_USER, true,null);
-		ul.add(u);
+		String uri = "/api/progress/find/{progId}";
+		Long progId = 1L;
+		Progress testProgress = new Progress(1L,"incomplete", null, null);
+		Cyphers testCypher = new Cyphers(1L, "42", "The answer to life", "da bibl","easy",null,null);
 		
-		when(ps.findByUsername(u.getUsername())).thenReturn(u);
+		when(ps.findCypherInProgById(progId)).thenReturn(testCypher);
 		
 		
-		mock.perform(get(uri,u.getUsername()))
+		mock.perform(get(uri,testProgress.getId()))
 			   .andDo(print())
 			   .andExpect( status().isOk());
-		//assertEquals(200, status.isOk());
 		
 	}
 	
 	@Test
-	public void testDeleteUser() throws Exception 
+	public void testDeleteProgress() throws Exception 
 	{
-		
-		List<User> ul = new ArrayList<>();
-		User u = new User(0L,"John","Cena","cantSeeMe77","attitudeAdjustment","JC77@email.com",Role.ROLE_USER, true,null);
-		ul.add(u);
-		String uri = "/api/deleteUser/0";
-		when(ps.deleteUser(u.getId())).thenReturn(true);
+		Progress testProgress = new Progress(1L,"incomplete", null, null);;
+		String uri = "/api/progress/delete/{id}";
+		when(ps.deleteProgress(testProgress.getId())).thenReturn(true);
 		
 	
-		mock.perform(delete(uri,u.getId()))
+		mock.perform(delete(uri,testProgress.getId()))
 			   .andDo(print())
 			   .andExpect( status().isOk());
 		//assertEquals(200, status.isOk());
 		
-	}*/
+	}
 	
 	// converts any object to a JSON string
 	public static String asJsonString(final Object obj) 
