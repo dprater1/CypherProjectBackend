@@ -13,13 +13,13 @@ public interface CyphersRepository extends JpaRepository<Cyphers, Long> {
 
 	boolean existsByQuestion(String question);
 
-	@Query("SELECT u FROM Cyphers u")
+	@Query("SELECT u FROM Cyphers u WHERE u.difficulty=easy")
 	public List<Cyphers> findEasyCypher();
 	
-	@Query("SELECT u FROM Cyphers u WHERE u.difficulty =medium")
+	@Query("SELECT u FROM Cyphers u WHERE u.difficulty=medium")
 	public List<Cyphers> findMediumCypher();
 	
-	@Query("SELECT u FROM Cyphers u WHERE u.difficulty =hard")
+	@Query("SELECT u FROM Cyphers u WHERE u.difficulty=hard")
 	public List<Cyphers> findHardCypher();
 	
 }
