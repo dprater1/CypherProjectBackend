@@ -66,7 +66,7 @@ public class CyphersService {
 	}
 	
 	//update
-	public ResponseEntity<?> updateProduct(Cyphers cypher, Long id) throws ResourceNotFoundException {
+	public ResponseEntity<?> updateCypher(Cyphers cypher, Long id) throws ResourceNotFoundException {
 		Optional<Cyphers> productOptional = repo.findById(id);
 		if (productOptional.isPresent()) {
 			Cyphers update = get(id);

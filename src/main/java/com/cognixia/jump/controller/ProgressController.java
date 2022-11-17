@@ -95,4 +95,12 @@ public class ProgressController {
 		
 		
 	}
+	@GetMapping("/progress/find/user/{progId}")
+	public ResponseEntity<?> findUserInProgById(@PathVariable Long progId) throws ResourceNotFoundException{
+		User user = progService.findUserInProgById(progId);
+		
+		return new ResponseEntity<>(user, HttpStatus.OK);
+		
+		
+	}
 }
