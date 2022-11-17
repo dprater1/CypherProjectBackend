@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +38,7 @@ public class ProgressController {
 	@Autowired
 	MyUserDetailsService myUserDetailsService;
 	
-	@GetMapping("progress/all")
+	@GetMapping("/progress/all")
 	public ResponseEntity<?> getAllProgress(){
 		List<Progress> progress = progService.getAllProgress();
 		
@@ -45,7 +46,7 @@ public class ProgressController {
 		
 	}
 	
-	@PostMapping("progress/add/{cypherId}")
+	@PostMapping("/progress/add/{cypherId}")
 	public ResponseEntity<?> addProgress(@PathVariable Long cypherId) throws ResourceNotFoundException{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -60,7 +61,7 @@ public class ProgressController {
 		
 	}
 	
-	@PostMapping("/progress/complete/{cypherId}")
+	@PutMapping("/progress/complete/{cypherId}")
 	public ResponseEntity<?> completeProgress(@PathVariable Long progressId) throws ResourceNotFoundException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
