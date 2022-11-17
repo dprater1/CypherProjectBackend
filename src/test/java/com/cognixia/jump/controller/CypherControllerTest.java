@@ -148,11 +148,14 @@ class CypherControllerTest {
 		cypher.add(new Cyphers(1L, "answer", "ceaser", "hints", "hard", null, null));
 		cypher.add(new Cyphers(2L, "answer", "ceaser", "hints", "easy", null, null));
 		cypher.add(new Cyphers(3L, "answer", "ceaser", "hints", "medium", null, null));
+		cypher = service.getEasyCypher();
+		
 		when(service.getEasyCypher()).thenReturn(cypher);
 
-		mockMvc.perform(get(uri)).andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.length()").value(cypher.size()))
-				.andExpect(jsonPath("$[0].difficuly").value(cypher.get(0).getDifficulty()));
+		mockMvc.perform(get(uri))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$difficulty", is("easy")));
 	}
 
 	@Test
@@ -182,9 +185,11 @@ class CypherControllerTest {
 		cypher.add(new Cyphers(3L, "answer", "ceaser", "hints", "medium", null, null));
 		when(service.getHardCypher()).thenReturn(cypher);
 
-		mockMvc.perform(get(uri)).andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$.length()").value(cypher.size()))
-				.andExpect(jsonPath("$[0].difficuly").value(cypher.get(0).getDifficulty()));
+		mockMvc.perform(get(uri))
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.length()").value(cypher.size()))
+		.andExpect(jsonPath("$[0].difficuly").value(cypher.get(0).getDifficulty()));
 	}
 
 	public static String asJsonString(final Object obj) {
