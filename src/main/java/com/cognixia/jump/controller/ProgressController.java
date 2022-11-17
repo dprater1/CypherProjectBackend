@@ -61,7 +61,7 @@ public class ProgressController {
 		
 	}
 	
-	@PutMapping("/progress/complete/{cypherId}")
+	@PutMapping("/progress/complete/{progressId}")
 	public ResponseEntity<?> completeProgress(@PathVariable Long progressId) throws ResourceNotFoundException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
@@ -102,4 +102,12 @@ public class ProgressController {
 		
 		
 	}
+	
+	@GetMapping("/progress/user/{userId}")
+	public ResponseEntity<?> findProgbyUserId(@PathVariable Long userId) throws ResourceNotFoundException{
+		List<Progress> progList = progService.findProgbyUserId(userId);
+		
+		return new ResponseEntity<>(progList, HttpStatus.OK);
+	}
+	
 }
