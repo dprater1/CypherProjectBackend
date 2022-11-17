@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.Cyphers;
 import com.cognixia.jump.model.Progress;
 import com.cognixia.jump.model.User;
@@ -30,13 +31,13 @@ public class ProgressService {
 		return progRepo.findAll();
 	}
 	
-	public boolean addProgress(Long userId, Long cypherId) {
+	public boolean addProgress(Long userId, Long cypherId) throws ResourceNotFoundException{
 		//create pathVariable in controller for cypherId
 		Optional<User> users = userRepo.findById(userId);
 		Optional<Cyphers> cyphers = cyphersRepo.findById(cypherId);
 
 		if (users.isEmpty() && cyphers.isEmpty()) {
-			return false;
+			throw new ResourceNotFoundException("One of user or cypher is null!");
 		}
 		Progress prog = new Progress();
 		prog.addCyphersUsers(cyphers.get(), users.get());
@@ -46,12 +47,12 @@ public class ProgressService {
 
 	}
 
-	public boolean completedProgress(Long id) {
+	public boolean completedProgress(Long id) throws ResourceNotFoundException{
 
 		Optional<Progress> curr_prog = progRepo.findById(id);
 		
 		if(curr_prog.isEmpty()) {
-			return false;
+			throw new ResourceNotFoundException("This cypher is not attached to this user!");
 		}
 		
 		curr_prog.get().setStatus("completed");
@@ -60,12 +61,12 @@ public class ProgressService {
 		return true;
 	}
 	
-	public boolean inprogressProgress(Long id) {
+	public boolean inprogressProgress(Long id) throws ResourceNotFoundException {
 
 		Optional<Progress> curr_prog = progRepo.findById(id);
 		
 		if(curr_prog.isEmpty()) {
-			return false;
+			throw new ResourceNotFoundException("This cypher is not attached to this user!");
 		}
 		
 		curr_prog.get().setStatus("in-progress");
@@ -84,6 +85,19 @@ public class ProgressService {
 		return true;
 	}
 	
-	
+	public Cyphers findCypherInProgById(Long progressId) throws ResourceNotFoundException{
+		Optional<Progress> curr_prog = progRepo.findById(progressId);
+		
+		if(curr_prog.isEmpty()) {
+			throw new ResourceNotFoundException("This cypher is not attached to this user!");
+		}
+		Optional<Cyphers> cypher = cyphersRepo.findById(curr_prog.get().getCypher().getId());
+		
+		if(cypher.isEmpty()) {
+			throw new ResourceNotFoundException("This cypher is not attached to this user!");
+		}
+		return cypher.get();
+		
+	}
 	
 }
