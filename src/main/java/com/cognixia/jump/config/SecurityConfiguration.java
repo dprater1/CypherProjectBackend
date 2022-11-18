@@ -44,21 +44,17 @@ public class SecurityConfiguration
             "/swagger-ui.html",
             "/webjars/**",
             "/v3/api-docs/**",
-            "/swagger-ui/**",
+            "/swagger-ui/**"
             
     };
 	
 	private static final String[] AUTH_ALL = {
             "/api/user/signup",
             "/api/authenticate",
-<<<<<<< HEAD
             "/api/progress/**",
-            "/api/cyphers/**"
-
-=======
+            "/api/cyphers/**",
             "/api/progress/complete/**",
             "/cyphers/**"
->>>>>>> main
     };
 	
 	private static final String[] AUTH_USER = {
@@ -68,7 +64,8 @@ public class SecurityConfiguration
 	
 	private static final String[] AUTH_ADMIN = {
 			"/api/all",
-			"/api/user"
+			"/api/user",
+			"/api/Types/all"
     };
 
 	//Authentication
@@ -85,7 +82,7 @@ public class SecurityConfiguration
 		http.csrf().disable()
 				   .authorizeRequests()
 				   .antMatchers(AUTH_DOCUMENTATION).permitAll()
-				   .antMatchers(AUTH_ALL).permitAll()
+				   .antMatchers(AUTH_ALL).hasAnyRole("USER","ADMIN")
 				   .antMatchers(AUTH_USER).hasRole("USER")
 				   .antMatchers(AUTH_ADMIN).hasRole("ADMIN")
 				   .anyRequest()

@@ -2,6 +2,7 @@ package com.cognixia.jump.model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -76,6 +77,26 @@ public class CyphersType implements Serializable{
 
 	public void setCypher(List<Cyphers> cypher) {
 		this.cypher = cypher;
+	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cypher, id, introduction, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CyphersType other = (CyphersType) obj;
+		return Objects.equals(cypher, other.cypher) && Objects.equals(id, other.id)
+				&& Objects.equals(introduction, other.introduction) && Objects.equals(name, other.name);
 	}
 
 	@Override
