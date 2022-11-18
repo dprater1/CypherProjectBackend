@@ -54,13 +54,17 @@ public class SecurityConfiguration
     };
 	
 	private static final String[] AUTH_USER = {
-			"api/deleteUser/**"
+			"/api/deleteUser/**",
+			"/api/cyphers/all"
 
     };
 	
 	private static final String[] AUTH_ADMIN = {
 			"/api/all",
-			"/api/user"
+			"/api/user",
+			"/api/cyphers/new",
+			"/api/cyphers/update/{id}",
+			"/api/cyphers/delete/{id}"
     };
 
 	//Authentication
@@ -77,7 +81,9 @@ public class SecurityConfiguration
 		http.csrf().disable()
 				   .authorizeRequests()
 				   .antMatchers(AUTH_DOCUMENTATION).permitAll()
-				   .antMatchers(AUTH_ALL).permitAll()
+				   .antMatchers(AUTH_ALL).hasAnyRole(AUTH_ALL)
+//				   .antMatchers(AUTH_USER).permitAll()
+//				   .antMatchers(AUTH_ADMIN).permitAll()
 				   .antMatchers(AUTH_USER).hasRole("USER")
 				   .antMatchers(AUTH_ADMIN).hasRole("ADMIN")
 				   .anyRequest()
