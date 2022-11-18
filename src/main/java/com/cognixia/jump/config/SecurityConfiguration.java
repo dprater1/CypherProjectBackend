@@ -52,7 +52,9 @@ public class SecurityConfiguration
             "/api/user/signup",
             "/api/authenticate",
             "/api/progress/complete/**",
-            "/cyphers/**"
+            "/cyphers/**",
+            "/api/cyphers/type/**",
+            //"/api/types/all"
     };
 	
 	private static final String[] AUTH_USER = {
@@ -62,7 +64,8 @@ public class SecurityConfiguration
 	
 	private static final String[] AUTH_ADMIN = {
 			"/api/all",
-			"/api/user"
+			"/api/user",
+			"/api/Types/all"
     };
 
 	//Authentication
@@ -79,7 +82,7 @@ public class SecurityConfiguration
 		http.csrf().disable()
 				   .authorizeRequests()
 				   .antMatchers(AUTH_DOCUMENTATION).permitAll()
-				   .antMatchers(AUTH_ALL).permitAll()
+				   .antMatchers(AUTH_ALL).hasAnyRole("USER","ADMIN")
 				   .antMatchers(AUTH_USER).hasRole("USER")
 				   .antMatchers(AUTH_ADMIN).hasRole("ADMIN")
 				   .anyRequest()

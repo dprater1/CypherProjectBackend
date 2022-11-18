@@ -1,6 +1,7 @@
 package com.cognixia.jump.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,13 +12,18 @@ import org.springframework.stereotype.Service;
 import com.cognixia.jump.exception.DuplicateCypherException;
 import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.Cyphers;
+import com.cognixia.jump.model.CyphersType;
 import com.cognixia.jump.repository.CyphersRepository;
+import com.cognixia.jump.repository.CyphersTypeRepository;
 
 @Service
 public class CyphersService {
 
 	@Autowired
 	CyphersRepository repo;
+	
+	@Autowired
+	CyphersTypeRepository ctr;
 	
 	//check duplicate value.
 	public boolean checkDuplicateQuestion(String question) {
@@ -103,4 +109,6 @@ public class CyphersService {
 	public List<Cyphers> getHardCypher() {
 		return repo.findHardCypher();
 	}
+	
+	
 }

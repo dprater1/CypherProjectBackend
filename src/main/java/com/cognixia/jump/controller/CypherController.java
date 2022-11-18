@@ -72,4 +72,5 @@ public class CypherController {
 		return service.getHardCypher();
 	}
 	
+
 }
