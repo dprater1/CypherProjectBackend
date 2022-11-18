@@ -115,5 +115,17 @@ public class ProgressService {
 		
 	}
 	
+	public List<Progress> findProgbyUserId(Long userId) throws ResourceNotFoundException{
+		Optional<User> curr_user = userRepo.findById(userId);
+		
+		if(curr_user.isEmpty()) {
+			throw new ResourceNotFoundException("This user does not exist!");
+		}
+		List<Progress> progList = userRepo.findProgressByUsername(curr_user.get().getUsername());
+		if(progList.isEmpty()) {
+			throw new ResourceNotFoundException("This user has done no cyphers!");
+		}
+		return progList;
+	}
 	
 }

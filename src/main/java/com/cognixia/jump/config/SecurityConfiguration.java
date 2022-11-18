@@ -44,17 +44,17 @@ public class SecurityConfiguration
             "/swagger-ui.html",
             "/webjars/**",
             "/v3/api-docs/**",
-            "/swagger-ui/**",
+            "/swagger-ui/**"
             
     };
 	
 	private static final String[] AUTH_ALL = {
             "/api/user/signup",
             "/api/authenticate",
+            "/api/progress/**",
+            "/api/cyphers/**",
             "/api/progress/complete/**",
-            "/cyphers/**",
-            "/api/cyphers/type/**",
-            //"/api/types/all"
+            "/cyphers/**"
     };
 	
 	private static final String[] AUTH_USER = {
